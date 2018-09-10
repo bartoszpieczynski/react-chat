@@ -11,10 +11,10 @@ const database = firebase.database();
 
 class Receive extends Component {
    state = {
-      messages: []
+      messages: {}
    };
 
-   messageRef = database.ref("messages/");
+   messageRef = database.ref().child("messages");
 
    componentDidMount() {
       this.listenToMessages();
@@ -23,18 +23,21 @@ class Receive extends Component {
    listenToMessages = () => {
       this.messageRef.on("value", message => {
          this.setState({
-            messages: Object.values(message.val())
+            messages: message.val()
          });
       });
    };
 
    render() {
-      console.log(this.state.messages);
+      let message = Object.keys(this.state.messages)
+            .map((msg) => {
+            return [...Array(this.state.messages[msg])].map((message, index) => {
+               return <Message key={index} message={message.text} author={message.name}/>
+            })
+      })
       return (
          <div>
-            {this.state.messages.map((msg, index) => {
-               return <Message key={index} message={msg} />;
-            })}
+            {message}
          </div>
       );
    }

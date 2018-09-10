@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Navigation from '../components/Navigation/Navigation';
-import Receive from '../components/Chat/Receive/Receive';
-// import Login from '../components/Login/Login';
+import Chat from '../components/Chat/Chat';
 
 class App extends Component {
 
@@ -21,8 +20,7 @@ class App extends Component {
           
          <div className="App">
             <Navigation drawer={this.state.drawerToggled} toggleDrawer={this.toggleDrawer}/>
-            {/* <Login /> */}
-            <Receive/>
+            <Chat />
          </div>
       );
    }
