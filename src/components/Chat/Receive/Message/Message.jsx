@@ -1,11 +1,12 @@
 import React from 'react';
+import { Paper, Typography } from '@material-ui/core';
+import classes from './Message.css';
 
 const message = (props) => {
    return(
-      <div>
-         <h1>{props.author}</h1>
-         <p>{props.message}</p>
-      </div>
+     <Paper className={classes.paper}>
+        <Typography>{props.author}: {props.message}</Typography>
+     </Paper>
    );
 }
 

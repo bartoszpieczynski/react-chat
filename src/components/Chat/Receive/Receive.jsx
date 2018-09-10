@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Message from "./Message/Message";
 import firebase from "firebase";
+import classes from './Receive.css'
 
 var config = {
    apiKey: "AIzaSyC0EFnRgwXBYtlt3RqfFSVey2as97kTvGY",
@@ -21,7 +22,7 @@ class Receive extends Component {
    }
 
    listenToMessages = () => {
-      this.messageRef.on("value", message => {
+      this.messageRef.limitToLast(10).on("value", message => {
          this.setState({
             messages: message.val()
          });
@@ -36,7 +37,7 @@ class Receive extends Component {
             })
       })
       return (
-         <div>
+         <div className={classes.receiveWindow}>
             {message}
          </div>
       );

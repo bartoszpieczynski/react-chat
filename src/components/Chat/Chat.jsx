@@ -1,12 +1,13 @@
 import React from 'react';
 import Receive from './Receive/Receive';
 import Send from './Send/Send';
+import classes from './Chat.css';
 
 const chat = (props) => {
    return(
-      <div>
+      <div className={classes.chat}>
          <Receive/>
-         <Send/>
+         <Send />
       </div>
    );
 }

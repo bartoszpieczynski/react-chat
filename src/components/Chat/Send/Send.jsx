@@ -26,21 +26,28 @@ class Send extends Component {
    }
 
    sendMessage = () => {
-      let message = {...this.state.message};
-      message.timestamp = Math.floor(Date.now() / 1000);
-      this.setState({message}, () => {
-         this.postMessage();
-      })         
+         let message = {...this.state.message};
+         message.timestamp = Math.floor(Date.now() / 1000);
+         this.setState({message}, () => {
+            this.postMessage();
+         })
+         document.getElementById('text-window').value = '';
+   }
+
+   sendMessageEnter = (event) => {
+      if (event.key === 'Enter') {
+         this.sendMessage();
+      }
    }
 
 
    render() {
       return(
-         <div style={{position: 'absolute', bottom: '0'}}>
-         <form>
-            <textarea onChange={this.handleChange}></textarea>
+         <div className={classes.sendSection}>
+         <form className={classes.form}>
+            <textarea className={classes.textWindow} id='text-window' onKeyPress={this.sendMessageEnter} onChange={this.handleChange}></textarea>
          </form>
-            <Button onClick={this.sendMessage}>Send</Button>
+            <Button className={classes.sendMessageBtn} onClick={this.sendMessage}>Send</Button>
          </div>
       );
       

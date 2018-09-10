@@ -1,0 +1,9 @@
+.paper {
+   width: 60%;
+   margin: 1.5rem 0 0 1rem;
+   padding: .5rem;
+}
+
+.paper:first-child {
+   margin-top: 0;
+}
