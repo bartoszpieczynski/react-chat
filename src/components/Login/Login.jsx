@@ -1,39 +1,26 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
-import { Modal, Typography, TextField } from "@material-ui/core";
+import { Modal, Typography, TextField, Button } from "@material-ui/core";
 
-const styles = {
-   modal: {
-      width: "70%",
-      position: "absolute",
-      top: "50%",
-      left: "15%",
-      backgroundColor: "white",
-      borderRadius: 3,
-      transform: 'translateY(-50%)'
-   },
-   title: {
-      marginTop: 10
-   },
-   inputs:{
-      margin: '0 auto'
-   }
-};
+import classes from './Login.css';
 
 const login = props => {
-   const { classes } = props;
    return (
       <Modal open={true}>
          <div className={classes.modal}>
-            <Typography variant="title" align="center" gutterBottom className={classes.title}>
+            <Typography variant="title" align="center" gutterBottom className={classes.loginTitle}>
                Sign In
             </Typography>
-            <form>
-               <TextField id='name' label='Name' margin='normal' required/>
+            <form className={classes.form}>
+               <TextField id='name' label='Name' margin='normal'/>
+               <TextField id='password' label='Password' type='password' margin='normal'/>
+               <div className={classes.buttonContainer}>
+               <Button>Log In</Button>
+               <Button>No Account?</Button>
+               </div>
             </form>
          </div>
       </Modal>
    );
 };
 
-export default withStyles(styles)(login);
+export default login;

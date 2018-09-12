@@ -1,14 +1,8 @@
 import React, { Component } from "react";
 import Message from "./Message/Message";
-import firebase from "firebase";
 import classes from './Receive.css'
 
-var config = {
-   apiKey: "AIzaSyC0EFnRgwXBYtlt3RqfFSVey2as97kTvGY",
-   databaseURL: "https://react-chat-8f8af.firebaseio.com/"
-};
-firebase.initializeApp(config);
-const database = firebase.database();
+import { database } from '../../../firebase/firebase';
 
 class Receive extends Component {
    state = {
@@ -19,6 +13,10 @@ class Receive extends Component {
 
    componentDidMount() {
       this.listenToMessages();
+   }
+   componentWillUpdate() {
+      let window = document.getElementById('receive-window');
+      window.scrollTop = window.scrollHeight;
    }
 
    listenToMessages = () => {
@@ -37,7 +35,7 @@ class Receive extends Component {
             })
       })
       return (
-         <div className={classes.receiveWindow}>
+         <div id='receive-window' className={classes.receiveWindow}>
             {message}
          </div>
       );

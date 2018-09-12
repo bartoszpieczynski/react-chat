@@ -36,6 +36,7 @@ class Send extends Component {
 
    sendMessageEnter = (event) => {
       if (event.key === 'Enter') {
+         event.preventDefault();
          this.sendMessage();
       }
    }
@@ -47,7 +48,7 @@ class Send extends Component {
          <form className={classes.form}>
             <textarea className={classes.textWindow} id='text-window' onKeyPress={this.sendMessageEnter} onChange={this.handleChange}></textarea>
          </form>
-            <Button className={classes.sendMessageBtn} onClick={this.sendMessage}>Send</Button>
+            <Button variant='contained' color='primary' className={classes.sendMessageBtn} onClick={this.sendMessage}>Send</Button>
          </div>
       );
       
