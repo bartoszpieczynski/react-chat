@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import Navigation from "../components/Navigation/Navigation";
 import Chat from "../components/Chat/Chat";
-import Login from "../components/Login/Login";
-import Register from "../components/Register/Register";
+import Login from "../components/UserAccountMenagment/Login/Login";
+import Register from "../components/UserAccountMenagment/Register/Register";
 
 import { Route } from "react-router-dom";
 

@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Modal, Typography, TextField, Button } from "@material-ui/core";
 import classes from "../Login/Login.css";
-import { auth } from "../../firebase";
+// import { auth } from "../../firebase";
 import firebase from 'firebase';
 import { Link, withRouter } from 'react-router-dom';
-import { errorPrefix } from "@firebase/util";
+// import { errorPrefix } from "@firebase/util";
 
 const byPropKey = (propertyName, value) => () => ({
    [propertyName]: value
@@ -108,7 +108,7 @@ class Register extends Component {
                      <Button disabled={isInvalid} type="submit">
                         Confirm
                      </Button>
-                     <Button>Cancel</Button>
+                     <Button><Link style={{textDecoration: 'none', color: 'black'}} to='/login'>Cancel</Link></Button>
                   </div>
                   {error && <p>{error.message}</p>}
                </form>
