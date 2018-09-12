@@ -1,26 +1,54 @@
 import React, { Component } from "react";
 import { Modal, Typography, TextField, Button } from "@material-ui/core";
 import classes from "../Login/Login.css";
-import axios from "../../axios";
+import { auth } from "../../firebase";
+import firebase from 'firebase';
+import { Link, withRouter } from 'react-router-dom';
+import { errorPrefix } from "@firebase/util";
 
 const byPropKey = (propertyName, value) => () => ({
-   [propertyName]: value,
+   [propertyName]: value
 });
+
+const INITIAL_STATE = {
+   name: "",
+   email: "",
+   passwordOne: "",
+   passwordTwo: "",
+   error: null
+};
 
 class Register extends Component {
    state = {
-         name: "",
-         email: "",
-         passwordOne: "",
-         passwordTwo: "",
-         error: ""
+      ...INITIAL_STATE
    };
 
-   handleSubmit = () => {
-      axios.post("/accounts.json", this.state);
+   handleSubmit = event => {
+
+      firebase.auth().createUserWithEmailAndPassword(
+            this.state.email,
+            this.state.passwordOne
+         )
+         .then(authUser => {
+            this.setState({ ...INITIAL_STATE });
+            this.props.history.push('/chat')
+         })
+         .catch(error => {
+               this.setState(byPropKey('error', error));
+         });
+
+         event.preventDefault();
    };
 
    render() {
+      const { name, email, passwordOne, passwordTwo, error } = this.state;
+
+      const isInvalid =
+         passwordOne !== passwordTwo ||
+         passwordOne === "" ||
+         email === "" ||
+         name === "";
+
       return (
          <Modal open={true}>
             <div className={classes.modal}>
@@ -32,7 +60,7 @@ class Register extends Component {
                >
                   Sign Up
                </Typography>
-               <form className={classes.form}>
+               <form className={classes.form} onSubmit={this.handleSubmit}>
                   <TextField
                      id="name"
                      value={this.state.name}
@@ -77,9 +105,12 @@ class Register extends Component {
                      margin="normal"
                   />
                   <div className={classes.buttonContainer}>
-                     <Button onClick={this.handleSubmit}>Confirm</Button>
+                     <Button disabled={isInvalid} type="submit">
+                        Confirm
+                     </Button>
                      <Button>Cancel</Button>
                   </div>
+                  {error && <p>{error.message}</p>}
                </form>
             </div>
          </Modal>
@@ -87,4 +118,4 @@ class Register extends Component {
    }
 }
 
-export default Register;
+export default withRouter(Register);
