@@ -3,36 +3,48 @@ import Navigation from "../components/Navigation/Navigation";
 import Chat from "../components/Chat/Chat";
 import Login from "../components/UserAccountMenagment/Login/Login";
 import Register from "../components/UserAccountMenagment/Register/Register";
+import PasswordForget from "../components/UserAccountMenagment/PasswordMenagment/PasswordForget";
+import Homepage from "../components/Home/Home";
 
-import { Route } from "react-router-dom";
+import { Route, BrowserRouter } from "react-router-dom";
+import withAuthentication from "../hoc/withAuthentication";
 
 import classes from "./App.css";
 
-class App extends Component {
-   state = {
-      drawerToggled: false,
-      logged: false
-   };
+// import firebase from 'firebase';
+// import { storageKey, isAuthenticated } from '../firebase/firebase';
 
-   toggleDrawer = () => {
-      this.setState(prevState => {
-         return { drawerToggled: !prevState.drawerToggled };
-      });
-   };
+class App extends Component {
+
+
+   // componentDidMount() {
+   //    firebase.auth().onAuthStateChanged(authUser => {
+   //       if (authUser){
+   //          window.localStorage.setItem(storageKey, authUser.uid);
+   //          this.setState({ uid: authUser.uid });
+   //       } else {
+   //          window.localStorage.removeItem(storageKey);
+   //          this.setState({ uid: null });
+   //       }
+   //    })
+   // }
+
 
    render() {
       return (
-         <div className={classes.App}>
-            <Navigation
-               drawer={this.state.drawerToggled}
-               toggleDrawer={this.toggleDrawer}
-            />
-            <Route exact path="/chat" component={Chat} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/register" component={Register} />
-         </div>
+         <BrowserRouter>
+            <div className={classes.App}>
+               <Navigation
+              />
+               <Route exact path='/home' component={Homepage} />
+               <Route exact path="/chat" component={Chat} />
+               <Route exact path="/login" component={Login} />
+               <Route exact path="/register" component={Register} />
+               <Route exact path="/forgotpassword" component={PasswordForget} />
+            </div>
+         </BrowserRouter>
       );
    }
 }
 
-export default App;
+export default withAuthentication(App);

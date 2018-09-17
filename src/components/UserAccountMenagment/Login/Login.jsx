@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Modal, Typography, TextField, Button } from "@material-ui/core";
 import firebase from "firebase";
 import { Link, withRouter } from "react-router-dom";
+import { storageKey } from '../../../firebase/firebase';
 
 import classes from "./Login.css";
 
@@ -21,30 +22,31 @@ class Login extends Component {
    };
 
    handleSubmit = event => {
-      firebase
-         .auth()
-         .signInWithEmailAndPassword(this.state.email, this.state.password)
-         .then(authUser => {
-            this.setState({ ...INITIAL_STATE });
-            this.props.history.push("/chat");
-         })
-         .catch(error => {
-            this.setState(byPropKey("error", error));
-         });
-
       event.preventDefault();
+            firebase
+               .auth()
+               .signInWithEmailAndPassword(
+                  this.state.email,
+                  this.state.password
+               )
+               .then(authUser => {
+                  window.localStorage.setItem(storageKey, authUser.uid);
+                  this.setState({ ...INITIAL_STATE });
+                  this.props.history.push("/chat");
+               })
+               .catch(error => {
+                  this.setState(byPropKey("error", error));
+               });
    };
 
    render() {
       const { email, password, error } = this.state;
 
-      const isInvalid =
-      password === '' ||
-      email === '';
+      const isInvalid = password === "" || email === "";
 
       return (
          <Modal open={true}>
-            <form className={classes.modal} onSubmit={this.handleSubmit}>
+            <div className={classes.modal}>
                <Typography
                   variant="title"
                   align="center"
@@ -53,7 +55,7 @@ class Login extends Component {
                >
                   Sign In
                </Typography>
-               <form className={classes.form}>
+               <form className={classes.form} onSubmit={this.handleSubmit}>
                   <TextField
                      value={email}
                      id="email"
@@ -74,7 +76,9 @@ class Login extends Component {
                      }
                   />
                   <div className={classes.buttonContainer}>
-                     <Button disabled={isInvalid} type='submit'>Log In</Button>
+                     <Button disabled={isInvalid} type="submit">
+                        Log In
+                     </Button>
                      <Button>
                         <Link
                            style={{ textDecoration: "none", color: "black" }}
@@ -84,9 +88,17 @@ class Login extends Component {
                         </Link>
                      </Button>
                   </div>
+                  <Button>
+                     <Link
+                        style={{ textDecoration: "none", color: "black" }}
+                        to="/forgotpassword"
+                     >
+                        Forgot Password?
+                     </Link>
+                  </Button>
                   {error && <p>{error.message}</p>}
                </form>
-            </form>
+            </div>
          </Modal>
       );
    }

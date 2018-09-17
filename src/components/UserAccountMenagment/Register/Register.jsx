@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Modal, Typography, TextField, Button } from "@material-ui/core";
 import classes from "../Login/Login.css";
-// import { auth } from "../../firebase";
 import firebase from 'firebase';
+import { db } from '../../../firebase';
 import { Link, withRouter } from 'react-router-dom';
 // import { errorPrefix } from "@firebase/util";
 
@@ -30,12 +30,18 @@ class Register extends Component {
             this.state.passwordOne
          )
          .then(authUser => {
-            this.setState({ ...INITIAL_STATE });
-            this.props.history.push('/chat')
-         })
-         .catch(error => {
-               this.setState(byPropKey('error', error));
-         });
+            db.doCreateUser(authUser.user.uid, this.state.name, this.state.email)
+                  .then(() => {
+                        this.setState({ ...INITIAL_STATE });
+                        this.props.history.push('/chat')
+                  })
+                  .catch(error => {
+                        this.setState(byPropKey('error', error));
+                  });
+            })
+            .catch(error => {
+                  this.setState(byPropKey('error', error));
+            })
 
          event.preventDefault();
    };
