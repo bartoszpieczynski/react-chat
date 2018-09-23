@@ -12,40 +12,31 @@ import WeekendIcon from "@material-ui/icons/Weekend";
 import PeopleIcon from "@material-ui/icons/People";
 import Exit from "@material-ui/icons/ExitToApp";
 
-import { connect } from "react-redux";
-import { storageKey } from "../../../firebase/firebase";
-import firebase from "firebase";
-import { Link } from "react-router-dom";
+
+import { Link, withRouter } from "react-router-dom";
 
 const navList = () => (
    <List>
-      {window.localStorage.getItem(storageKey) ? (
+      {/* {window.localStorage.getItem(storageKey) ? (
          <NavListAuth />
       ) : (
          <NavListNonAuth />
-      )}
+      )} */}
+      <NavListAuth />
    </List>
 );
 
-const LogOut = () => {
-   firebase
-      .auth()
-      .signOut()
-      .then(() => {
-         window.localStorage.removeItem(storageKey);
-      })
-      .catch(error => {
-         console.log(error);
-      });
-};
+
+
+
 
 const CoreNavList = () => (
    <Fragment>
       <ListItem button>
          <ListItemIcon>
-            <Avatar>TT</Avatar>
+            <Avatar></Avatar>
          </ListItemIcon>
-         <ListItemText primary="Profile" />
+         <ListItemText primary='Profile' />
       </ListItem>
 
       <Divider />
@@ -71,7 +62,7 @@ const NavListAuth = () => {
       <Fragment>
          <CoreNavList />
          <Link to='/'>
-            <ListItem onClick={() => LogOut()} button>
+            <ListItem button>
                <ListItemIcon>
                   <Exit />
                </ListItemIcon>
@@ -90,8 +81,6 @@ const NavListNonAuth = () => {
    );
 };
 
-const mapStateToProps = state => ({
-   authUser: state.sessionState.authUser
-});
 
-export default connect(mapStateToProps)(navList);
+
+export default withRouter(navList);

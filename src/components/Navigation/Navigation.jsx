@@ -1,7 +1,6 @@
 import React, { Fragment, Component } from "react";
 import NavList from "./NavList/NavList";
 
-import { Link } from 'react-router-dom';
 
 import {
    AppBar,

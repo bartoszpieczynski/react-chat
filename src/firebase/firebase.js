@@ -15,11 +15,6 @@ if (!firebase.apps.length) {
    firebase.initializeApp(config);
 }
 
-const storageKey = 'KEY_FOR_LOCAL_STORAGE';
-
-const isAuthenticated = () => {
-  return !!auth.currentUser || !!localStorage.getItem(storageKey);
-};
 
 
 const auth = firebase.auth();
@@ -27,7 +22,5 @@ const database = firebase.database();
 
 export {
    auth,
-   database,
-   storageKey,
-   isAuthenticated
+   database
 }

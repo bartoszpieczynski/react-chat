@@ -1,50 +1,54 @@
 import React, { Component } from "react";
 import Navigation from "../components/Navigation/Navigation";
 import Chat from "../components/Chat/Chat";
-import Login from "../components/UserAccountMenagment/Login/Login";
-import Register from "../components/UserAccountMenagment/Register/Register";
-import PasswordForget from "../components/UserAccountMenagment/PasswordMenagment/PasswordForget";
-import Homepage from "../components/Home/Home";
+import Register from '../components/UserManagement/Register/Register';
+import Login from '../components/UserManagement/Login/Login';
+import Home from '../components/Home/Home';
+import { auth, database } from '../firebase/firebase';
 
-import { Route, BrowserRouter } from "react-router-dom";
-import withAuthentication from "../hoc/withAuthentication";
+
+import { BrowserRouter, Route } from 'react-router-dom';
+import PrivateRoute from '../hoc/PrivateRoute';
 
 import classes from "./App.css";
 
-// import firebase from 'firebase';
-// import { storageKey, isAuthenticated } from '../firebase/firebase';
+
 
 class App extends Component {
 
+   state = {
+      authenticated: false,
+   }
 
-   // componentDidMount() {
-   //    firebase.auth().onAuthStateChanged(authUser => {
-   //       if (authUser){
-   //          window.localStorage.setItem(storageKey, authUser.uid);
-   //          this.setState({ uid: authUser.uid });
-   //       } else {
-   //          window.localStorage.removeItem(storageKey);
-   //          this.setState({ uid: null });
-   //       }
-   //    })
-   // }
-
+   componentDidMount() {
+      auth.onAuthStateChanged((authUser) => {
+         if (authUser) {
+            this.setState({ authenticated: true });
+            database.ref('/users/' + authUser.uid).update({
+               online: true
+            })
+         } else {
+            this.setState({authenticated: false});
+            database.ref('/users/' + authUser.uid).update({
+               online: false
+            })
+         }
+      })
+   }
 
    render() {
+
       return (
          <BrowserRouter>
             <div className={classes.App}>
-               <Navigation
-              />
-               <Route exact path='/home' component={Homepage} />
-               <Route exact path="/chat" component={Chat} />
-               <Route exact path="/login" component={Login} />
+               <Navigation />
+               <Route exact path="/login"  component={Login} />
                <Route exact path="/register" component={Register} />
-               <Route exact path="/forgotpassword" component={PasswordForget} />
+               <PrivateRoute exact path="/chat" authenticated={this.state.authenticated} component={Chat} />
             </div>
          </BrowserRouter>
       );
    }
 }
 
-export default withAuthentication(App);
+export default App;

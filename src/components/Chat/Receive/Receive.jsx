@@ -14,6 +14,7 @@ class Receive extends Component {
    componentDidMount() {
       this.listenToMessages();
    }
+   
    componentWillUpdate() {
       let window = document.getElementById('receive-window');
       window.scrollTop = window.scrollHeight;

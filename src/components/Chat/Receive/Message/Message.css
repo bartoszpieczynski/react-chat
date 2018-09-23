@@ -1,7 +1,22 @@
 .paper {
-   width: 60%;
-   margin: 1.5rem 0 0 1rem;
+   width: 80%;
+   margin: 1rem auto;
    padding: .5rem;
+   background-color: #3f51b5!important;
+}
+
+.paperUser {
+   width: 80%;
+   margin: 1rem auto;
+   padding: .5rem;
+}
+
+.messageText {
+   color: white!important;
+}
+
+.messageTextUser {
+   color: black!important;
 }
 
 .paper:first-child {
